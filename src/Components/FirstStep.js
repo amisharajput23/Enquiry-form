@@ -6,7 +6,6 @@ export const FirstStep = () => {
     const { setStep, userData, setUserData } = useContext(multiStepContext);
     return (
         <div>
-            
          <Button variant="contained" onClick ={() => setStep(2)} color="primary">Start</Button>   
         </div>
     )

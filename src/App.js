@@ -8,57 +8,83 @@ import  FourthStep  from './Components/FourthStep';
 import { multiStepContext} from './StepContext';
 import FifthStep from './Components/FifthStep';
 import SixthStep from './Components/SixthStep'
+import { makeStyles } from '@material-ui/core/styles';
+import StepContent from '@material-ui/core/StepContent';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+
+
 function App() {
-   const {currentStep, finalData} = useContext(multiStepContext);
-  function showStep(step){
-    switch(step) {
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      width: '100%',
+    },
+    button: {
+      marginTop: theme.spacing(1),
+      marginRight: theme.spacing(1),
+    },
+    actionsContainer: {
+      marginBottom: theme.spacing(2),
+    },
+    resetContainer: {
+      padding: theme.spacing(3),
+    },
+  }));
+
+  function getSteps() {
+    return ['Get Started', 'Section 1', 'Section 2', 'Section 3', 'Section 4'];
+  }
+
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <FirstStep />;
       case 1:
-        return <FirstStep/>;
+        return <SecondStep />;
       case 2:
-        return <SecondStep/>;
+        return <ThirdStep />;
       case 3:
-        return <ThirdStep/>;
+          return <FourthStep />
       case 4:
-        return <FourthStep/>;
-      case 5: 
-      return <FifthStep/>;
-      case 6:
-        return <SixthStep/>;
-      default: 
-        return "Unknown step";
-      
+            return <FifthStep />
+      default:
+        return 'Unknown step';
     }
   }
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1 style={{color:'black'}}>Enquiry Form</h1>
-        <div className="center-stepper">
-          <Stepper alternativeLabel activeStep={currentStep - 1} orientation="horizontal" connector={true}>
-            <Step>
-              <StepLabel>first step</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>second step</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel></StepLabel>
-            </Step>
-            <Step>
-              <StepLabel></StepLabel>
-            </Step>
-            <Step>
-              <StepLabel></StepLabel>
-            </Step>
-            <Step>
-              <StepLabel></StepLabel>
-            </Step>
-          </Stepper>
+
+    const classes = useStyles();
+  const {currentStep, finalData} = useContext(multiStepContext);
+    const steps = getSteps();
+
+    return (
+        <div className="App">
+          <div className="center-stepper">
+              <h1 style={{color:'black'}}>Enquiry Form</h1>
+            <div className={classes.root}>
+              <Stepper activeStep={currentStep - 1} orientation="vertical">
+                {steps.map((label, index) => (
+                    <Step key={label}>
+                      <StepLabel>{label}</StepLabel>
+                      <StepContent>
+                        <Typography>{getStepContent(index)}</Typography>
+                      </StepContent>
+                    </Step>
+                ))}
+              </Stepper>
+              {currentStep === steps.length && (
+                  <Paper square elevation={0} className={classes.resetContainer}>
+                    <Typography>All steps completed - you&apos;re finished</Typography>
+                  </Paper>
+              )}
+            </div>
+          </div>
         </div>
-  {showStep(currentStep)}
-      </header>
-    </div>
-  );
+
+    );
+
+
 }
 
 export default App;

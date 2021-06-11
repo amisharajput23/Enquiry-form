@@ -13,7 +13,7 @@ export const SecondStep = () => {
                  <TextField id="outlined-basic" label="Name" variant="outlined" onChange={(text) => setBtnDisabled(!text.target.value)} />
              </div>
              <div>
-           <Button disabled={btnDisabled} variant="contained"onClick ={() => setStep(3)} color="primary">Next</Button> 
+           <Button disabled={btnDisabled} variant="contained"onClick ={() => setStep(3)} color="primary" style={{marginTop : 10}}>Next</Button>
            </div>
         </div>
     )
